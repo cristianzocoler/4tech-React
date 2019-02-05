@@ -37,12 +37,12 @@ const jobCard = (props) => {
             <p>{props.salary}</p>
 
           </div>
-          <a href="#" className="btn btn-warning">
+          <button className="btn btn-warning">
             <i className="far fa-edit"></i>
-          </a>
-          <a href="#" className="btn btn-danger">
+          </button>
+          <button href="#" className="btn btn-danger" onClick={ props.removeHandler }>
             <i className="far fa-trash-alt"></i>
-          </a>
+          </button>
         </div>
       </div>
     </div>

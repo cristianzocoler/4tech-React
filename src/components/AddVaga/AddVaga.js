@@ -7,14 +7,7 @@ const AddVaga = () => (
     <div>
         <Button color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
             Nova Vaga
-    </Button>
-        <UncontrolledCollapse toggler="#toggler">
-            <Card>
-                <CardBody>
-                
-                </CardBody>
-            </Card>
-        </UncontrolledCollapse>
+        </Button>
     </div>
 )
 

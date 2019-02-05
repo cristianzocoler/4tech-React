@@ -14,6 +14,23 @@ class JobsList extends React.Component {
     ]
   }
 
+  jobRemoveHandler = ( paramName ) => {
+    if (window.confirm(`Deseja realmente remover a vaga "${paramName}" ? `)) {
+      window.alert('Removido com sucesso ! ');
+
+      
+    }
+  }
+
+  jobEditHandler = (paramName) => {
+    if  (window.confirm(`Deseja editar a vaga "${paramName}" ? `)) {
+      window.alert('')
+    }
+  }
+
+
+
+
   render() {
     const renderJobs = this.state.jobs.map(job => {
       return <JobCard 
@@ -21,6 +38,7 @@ class JobsList extends React.Component {
       description = {job.description}
       salary = {job.salary}
       area = {job.area}
+      jobRemoveHandler= { () => this.jobRemoveHandler(job.name) }
       />
     });
 
