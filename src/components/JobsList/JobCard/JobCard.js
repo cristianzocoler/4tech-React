@@ -40,7 +40,7 @@ const jobCard = (props) => {
           <button className="btn btn-warning">
             <i className="far fa-edit"></i>
           </button>
-          <button href="#" className="btn btn-danger" onClick={ props.removeHandler }>
+          <button href="#" className="btn btn-danger" onClick = { props.jobRemoveHandler } >
             <i className="far fa-trash-alt"></i>
           </button>
         </div>
