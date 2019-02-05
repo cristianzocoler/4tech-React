@@ -11,7 +11,7 @@ const AddVaga = () => (
         <UncontrolledCollapse toggler="#toggler">
             <Card>
                 <CardBody>
-                    </JobForm>
+                
                 </CardBody>
             </Card>
         </UncontrolledCollapse>
