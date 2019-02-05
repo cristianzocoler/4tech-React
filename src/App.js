@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import Header from './components/navigation/Header/Header';
 import JobsList from './components/JobsList/JobsList';
-import AddVaga from './components/AddVaga/AddVaga';
+import JobForm from './components/JobForm/JobForm';
 
 class App extends Component {
   render() {
@@ -14,9 +13,9 @@ class App extends Component {
           <Header />
         </div>
         <div className="container mt-3">
-          <AddVaga />
+          <JobForm/>
         </div>
-        <div className="container ">
+        <div className="container mt-3">
           <JobsList />
         </div>
       </div>

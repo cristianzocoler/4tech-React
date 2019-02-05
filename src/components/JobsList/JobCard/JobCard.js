@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from '../../../assets/logo-vagas.png'
+import developer from '../../../assets/developer.png'
 
 const jobCard = () => (
   <div className="col-sm-12 col-md-6 col-lg-4 mb-3">
   <div className="card">
-    <img className="card-img-top" src={logo} alt="Card image cap" />
+    <img className="card-img-top" src={developer} alt="Card image cap" />
     <div className="card-body">
       <h5 className="card-title">Desenvolvedor Front-end JR</h5>
       <div>
