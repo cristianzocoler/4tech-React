@@ -2,30 +2,59 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Cabecalho from './components/navigation/Header/Header';
-import JobsList from './components/JobsList/JobsList';
-import JobForm from './components/JobForm/JobForm';
-import Collapse from './components/navigation/Collapse/Collapse';
+import JobManagement from './components/JobManagement/JobManagement';
+import Sobre from './components/About/About';
+import NotFound from './components/navigation/NotFound/NotFound';
+import Login from './components/Login/Login';
+
+import { Switch, Route } from 'react-router-dom';
+import axios from 'axios';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Cabecalho/>
-        <div className="container pt-3">
-          
-          <Collapse buttonText="CRIAR VAGA" btnClass='btn-secondary' 
-            collapseId="newJobForm">
-            <JobForm/>
-            <p>TESTE</p>
-          </Collapse>
 
-          <Collapse buttonText="VER VAGAS" btnClass='btn-info' 
-            collapseId="viewJobsCollapse">
-            <JobsList/>
-          </Collapse>
+  state = {
+    loggedUser: JSON.parse(window.localStorage.getItem('user')) || null
+  }
+
+  loginHandler = (paramEmail, paramPass) => {
+    axios.post('/login', { 'email': paramEmail, 'password': paramPass })
+      .then(response => {
+        window.localStorage.setItem('user', JSON.stringify( response.data.user ));
+        window.localStorage.setItem('token', JSON.stringify( response.data.token ));
+
+        this.setState({ loggedUser: response.data.user });
+      })
+      .catch(error => {
+        alert('Login inválido');
+        console.error(error);
+      })
+  }
+
+  logoutHandler = () => {
+    window.localStorage.clear();
+    this.setState({ loggedUser: null });
+  }
+
+  render() {
+    if (this.state.loggedUser) {
+      return (
+        <div className="App">
+          <Cabecalho userName={ this.state.loggedUser.name }
+            logout={ this.logoutHandler }/>
+          <div className="container pt-3">
+            <Switch>
+              <Route path='/' component={ JobManagement }/>
+              <Route path='/dashboard' component={ JobManagement }/>
+              <Route path='/vagas' component={ JobManagement }/>
+              <Route path='/sobre' component={ Sobre }/>
+              <Route path='*' component={ NotFound }/>
+            </Switch>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    return (<Login login={ this.loginHandler }></Login>);
   }
 }
 
