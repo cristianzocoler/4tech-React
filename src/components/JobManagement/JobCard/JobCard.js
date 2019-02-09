@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import developerImg from '../../../assets/developer.png'
 import testerImg from '../../../assets/tester.png'
@@ -24,12 +25,27 @@ const jobCard = (props) => {
       break;
   }
 
+  let buttons = <div></div>
+
+  if (navigator.onLine) {
+    buttons = (
+      <div>
+        <button onClick={props.editHandler} data-toggle="collapse" data-target={'#' + props.panelId} className="btn btn-warning mr-1">
+          <i className="far fa-edit"></i>
+        </button>
+        <button onClick={props.removeHandler} className="btn btn-danger">
+          <i className="far fa-trash-alt"></i>
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="col-sm-12 col-md-6 col-lg-4 mb-3">
       <div className="card">
         <img className="card-img-top" src={img} alt="Card cap" />
         <div className="card-body">
-          <h5 className="card-title">{props.name}</h5>
+          <Link to={"/vagas/" + props.id}><h5 className="card-title">{props.name}</h5></Link>
           <div>
             <b>Descrição:</b>
             <p>{props.description}</p>
@@ -38,12 +54,7 @@ const jobCard = (props) => {
             <p>R$  {props.salary}</p>
 
           </div>
-          <button onClick={props.editHandler} data-toggle="collapse" data-target={'#' + props.panelId} className="btn btn-warning mr-1">
-            <i className="far fa-edit"></i>
-          </button>
-          <button onClick={props.removeHandler} className="btn btn-danger">
-            <i className="far fa-trash-alt"></i>
-          </button>
+          {buttons}
         </div>
       </div>
     </div>

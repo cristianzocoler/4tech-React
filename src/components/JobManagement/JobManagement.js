@@ -3,6 +3,7 @@ import React from 'react';
 import JobCard from './JobCard/JobCard';
 import JobForm from '../JobForm/JobForm';
 import Collapse from '../navigation/Collapse/Collapse';
+import Loading from '../navigation/Loading/Loading';
 
 import axios from 'axios';
 
@@ -32,10 +33,12 @@ export default class JobsManagement extends React.Component {
     this.setState({ jobs: jobsList });
   }
 
+
+
   jobRemoveHandler = (paramId, paramName) => {
     if (window.confirm(`Deseja realmente remover a vaga "${paramName}"?`)) {
 
-      axios.delete(`/jobs/${paramId}`)
+      axios.delete(`/jobs/${paramId}`, window.getAxiosConfig())
         .then(_ => {
           const index = this.state.jobs.findIndex(job => job.id === paramId);
 
@@ -56,19 +59,21 @@ export default class JobsManagement extends React.Component {
   }
 
   componentDidMount() {
-    const axiosConfig = {
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(window.localStorage.getItem('token'))
-      }
-    }
 
-    axios.get('/jobs', axiosConfig)
-      .then(response => {
-        this.setState({ jobs: response.data })
-      })
-      .catch(error => {
-        console.error(error);
-      })
+    if (!navigator.onLine) {
+      this.setState({ jobs: JSON.parse(localStorage.getItem('jobs')) });
+      
+    } else {
+
+      axios.get('/jobs', window.getAxiosConfig())
+        .then(response => {
+          this.setState({ jobs: response.data })
+          localStorage.setItem('jobs', JSON.stringify(response.data));
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    }
   }
 
   clearSelectedId = () => {
@@ -81,6 +86,7 @@ export default class JobsManagement extends React.Component {
     const renderJobs = this.state.jobs.map(job => {
       return <JobCard
         key={job.id}
+        id={job.id}
         name={job.name}
         description={job.description}
         salary={job.salary}
@@ -91,7 +97,7 @@ export default class JobsManagement extends React.Component {
       />
     });
 
-    return (
+    const listHTML = (
       <div>
         <Collapse buttonText="CRIAR VAGA" btnClass='btn-secondary'
           collapseId="newJobForm">
@@ -104,7 +110,15 @@ export default class JobsManagement extends React.Component {
         <div className="row">
           {renderJobs}
         </div>
+
+        <p>{ navigator.onLine ? 'Online' : 'Offline' }</p>
       </div>
     )
+
+    if (this.state.jobs && this.state.jobs.length > 0) {
+      return listHTML;
+    }
+
+    return <Loading/>;
   }
 }
